@@ -89,9 +89,6 @@ const getProfile = async (req, res, next) => {
   }
 };
 
-// ─── @route   PUT /api/auth/profile ──────────────────────────────────────────
-// @desc    Update user profile
-// @access  Private
 const updateProfile = async (req, res, next) => {
   try {
     const { name, phone, address } = req.body;
@@ -99,7 +96,7 @@ const updateProfile = async (req, res, next) => {
     const user = await User.findByIdAndUpdate(
       req.user._id,
       { name, phone, address },
-      { new: true, runValidators: true } // new:true returns the updated doc
+      { new: true, runValidators: true } 
     );
 
     res.json({ success: true, message: 'Profile updated!', user });
@@ -108,9 +105,6 @@ const updateProfile = async (req, res, next) => {
   }
 };
 
-// ─── @route   PUT /api/auth/change-password ──────────────────────────────────
-// @desc    Change password
-// @access  Private
 const changePassword = async (req, res, next) => {
   try {
     const { currentPassword, newPassword } = req.body;
@@ -122,7 +116,7 @@ const changePassword = async (req, res, next) => {
       return res.status(400).json({ success: false, message: 'Current password is incorrect' });
     }
 
-    user.password = newPassword; // pre-save hook will hash this
+    user.password = newPassword; 
     await user.save();
 
     res.json({ success: true, message: 'Password changed successfully' });
