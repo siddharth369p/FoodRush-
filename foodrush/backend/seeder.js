@@ -1,8 +1,5 @@
-// backend/seeder.js
-// Run this to populate your database with sample data for testing.
-// Usage:
-//   node seeder.js         → seed database
-//   node seeder.js --clear → clear all data
+
+//seeder for the purpose of testing my database and simmply start with node seeder.js and then clear it node seede.jss --clear
 
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
@@ -137,7 +134,7 @@ const sampleFoods = [
 
 const connectDB = async () => {
   await mongoose.connect(process.env.MONGO_URI);
-  console.log('✅ MongoDB connected');
+  console.log(' MongoDB connected');
 };
 
 const seedDB = async () => {
@@ -145,11 +142,11 @@ const seedDB = async () => {
 
   if (process.argv[2] === '--clear') {
     await Promise.all([User.deleteMany({}), Food.deleteMany({}), Order.deleteMany({})]);
-    console.log('🗑️  All data cleared');
+    console.log('All data cleared');
     process.exit();
   }
 
-  // Create admin user
+ 
   const existingAdmin = await User.findOne({ email: 'admin@foodrush.com' });
   if (!existingAdmin) {
     await User.create({
@@ -159,12 +156,12 @@ const seedDB = async () => {
       role: 'admin',
       phone: '9999999999',
     });
-    console.log('👑 Admin user created: admin@foodrush.com / admin123');
+    console.log(' Admin user created: admin@foodrush.com / admin123');
   } else {
-    console.log('👑 Admin user already exists');
+    console.log(' Admin user already exists');
   }
 
-  // Create test user
+
   const existingUser = await User.findOne({ email: 'user@foodrush.com' });
   if (!existingUser) {
     await User.create({
@@ -177,12 +174,12 @@ const seedDB = async () => {
     console.log('👤 Test user created: user@foodrush.com / user123');
   }
 
-  // Clear and re-seed foods
+  
   await Food.deleteMany({});
   const foods = await Food.insertMany(sampleFoods);
-  console.log(`🍔 ${foods.length} food items seeded`);
+  console.log(` ${foods.length} food items seeded`);
 
-  console.log('\n✅ Database seeded successfully!');
+  console.log('\n Database seeded successfully!');
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
   console.log('Admin:     admin@foodrush.com / admin123');
   console.log('Test User: user@foodrush.com  / user123');
@@ -191,6 +188,6 @@ const seedDB = async () => {
 };
 
 seedDB().catch((err) => {
-  console.error('❌ Seeding failed:', err);
+  console.error(' Seeding failed:', err);
   process.exit(1);
 });
