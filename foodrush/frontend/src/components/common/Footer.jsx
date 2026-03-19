@@ -27,14 +27,14 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold text-white mb-3">Support</h4>
             <ul className="space-y-2 text-sm">
-              <li><span className="text-gray-400">📞 1800-FOOD-RUSH</span></li>
+              <li><span className="text-gray-400">📞 87072-FOOD-RUSH</span></li>
               <li><span className="text-gray-400">✉️ help@foodrush.in</span></li>
               <li><span className="text-gray-400">🕐 24/7 Support</span></li>
             </ul>
           </div>
         </div>
         <div className="border-t border-gray-800 mt-8 pt-6 text-center text-xs text-gray-500">
-          © {new Date().getFullYear()} FoodRush. Built by  Siddharth Pathak and Aditya Verma
+          © {new Date().getFullYear()} FoodRush. Built by Siddharth Pathak
         </div>
       </div>
     </footer>

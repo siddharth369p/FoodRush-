@@ -34,7 +34,7 @@ export default function FoodCard({ food }) {
         </div>
        
         <div className="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded-lg">
-          🕐 {food.preparationTime} min
+          {food.preparationTime} min
         </div>
       </Link>
 
