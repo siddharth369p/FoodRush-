@@ -1,32 +1,23 @@
-// controllers/authController.js
-// Handles user registration, login, and profile management.
-// Pattern: each function is async, wrapped in try/catch.
-// On success → return data. On failure → pass error to next(err).
 
 const User = require('../models/User');
 
-// ─── @route   POST /api/auth/register ────────────────────────────────────────
-// @desc    Register a new user
-// @access  Public
 const register = async (req, res, next) => {
   try {
     const { name, email, password, phone } = req.body;
 
-    // Validate required fields
+   
     if (!name || !email || !password) {
       return res.status(400).json({ success: false, message: 'Please provide name, email, and password' });
     }
 
-    // Check if user already exists
     const existingUser = await User.findOne({ email: email.toLowerCase() });
     if (existingUser) {
       return res.status(400).json({ success: false, message: 'Email already registered' });
     }
 
-    // Create user — password gets hashed in the pre-save hook
+   
     const user = await User.create({ name, email, password, phone });
 
-    // Generate JWT
     const token = user.generateToken();
 
     res.status(201).json({
@@ -42,13 +33,10 @@ const register = async (req, res, next) => {
       },
     });
   } catch (error) {
-    next(error); // Passes to global error handler
+    next(error); 
   }
 };
 
-// ─── @route   POST /api/auth/login ───────────────────────────────────────────
-// @desc    Authenticate user and return JWT
-// @access  Public
 const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -57,12 +45,9 @@ const login = async (req, res, next) => {
       return res.status(400).json({ success: false, message: 'Please provide email and password' });
     }
 
-    // Find user — we need password for comparison, so we explicitly select it
-    // (Remember: password has select:false in the schema)
     const user = await User.findOne({ email: email.toLowerCase() }).select('+password');
 
     if (!user) {
-      // Don't reveal whether the email exists — security best practice
       return res.status(401).json({ success: false, message: 'Invalid email or password' });
     }
 
@@ -95,12 +80,8 @@ const login = async (req, res, next) => {
   }
 };
 
-// ─── @route   GET /api/auth/profile ──────────────────────────────────────────
-// @desc    Get current user's profile
-// @access  Private (requires protect middleware)
 const getProfile = async (req, res, next) => {
   try {
-    // req.user is set by the protect middleware
     const user = await User.findById(req.user._id);
     res.json({ success: true, user });
   } catch (error) {
